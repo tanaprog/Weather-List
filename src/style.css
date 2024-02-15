@@ -49,8 +49,9 @@ body {
 
 .city-weather {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 25px;
+    gap: 50px;
 }
 
 .city-list {
