@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital@1&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Protest+Riot&family=Quicksand:wght@500&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+:root{
+    --background-color: rgb(28, 39, 39);
+    --text-color: #4e4588;
+    --background-for-cards: linear-gradient(135deg, #00feba, #5b548a);
+    --background-for-btn: linear-gradient(135deg, #3f3a5c, #2fac8a);
+    --empte-text: rgb(226, 16, 16);
+    --text-btn-and-text-cards: white;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: "Ubuntu", sans-serif;
+    min-width: 500px;
+}
+
+.wrapper{
+    margin: 0 30px;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    margin: 100px auto;
+    gap: 15px;
+}
+
+.enter-city {
+    padding: 15px 25px;
+    font-size: 23px;
+    font-weight: bold;
+    color: var(--text-color);
+    border-radius: 25px;
+    border: none;
+}
+
+.search-city {
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 22px;
+    background-color: var(--text-btn-and-text-cards);
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.city-weather {
+    /* background-color: rgb(33, 206, 206); */
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.city-list {
+    width: 300px;
+    background: var(--background-for-cards);
+    border-radius: 25px;
+    color: var(--text-btn-and-text-cards);
+    font-size: 18px;
+    text-align: center;
+}
+
+.cityName {
+    color: var(--text-color);
+    font-size: 35px;
+}
+
+h2 {
+    margin-top: -20px;
+}
+
+.hum-wind {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin: 0 20px 15px 20px;
+}
+
+.humidity-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.wind-wrapper{
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    align-items: center;
+}
+
+.hum-wind-text {
+    margin-top: -20px;
+}
+
+.icon{
+    width: 35px;
+    height: 30px;
+    font-weight: bold;
+}
+
+
+.button {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    font-size: 15px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    border-color: var(--text-color);
+    color: var(--text-btn-and-text-cards);
+    background: var(--background-for-btn);
+    width: 70px;
+    cursor: pointer;
+}
+
+.text-error {
+    font-size: 30px;
+    font-weight: bolder;
+    margin-top: -20px;
+    margin-bottom: 30px;
+    color: var(--empte-text);
+    display: flex;
+    justify-content: center;
+}
