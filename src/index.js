@@ -34,9 +34,10 @@ function deleteCityWeather(id) {
 /////////////////////
 
 async function updateCityWeather(id) {
-    let updateWeather = CITY_WEATHER.find((city) => city.id === id);
-    updateWeather = await fetch(apiUrl + id + `&appid=${apiKey}`);
-    const data = await updateWeather.json();
+    const updateWeather = CITY_WEATHER.find((city) => city.id === id);
+    console.log(updateWeather)
+    const request = await fetch(apiUrl + updateWeather + `&appid=${apiKey}`);
+    const data = await request.json();
     return data;
 }
 
