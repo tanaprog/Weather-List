@@ -31,17 +31,13 @@ function deleteCityWeather(id) {
     CITY_WEATHER.splice(cityId, 1);
 }
 
-/////////////////////
-
 async function updateCityWeather(id) {
     const updateWeather = CITY_WEATHER.find((city) => city.id === id);
     console.log(updateWeather)
-    const request = await fetch(apiUrl + updateWeather + `&appid=${apiKey}`);
+    const request = await fetch(apiUrl + updateWeather.name + `&appid=${apiKey}`);
     const data = await request.json();
     return data;
 }
-
-//////////////////////
 
 function getInputText(event) {
     event.preventDefault();
@@ -56,7 +52,7 @@ function removeInputText() {
 }
 
 function getCityId(event) {
-    const parentNode = event.target.closest('.city-weather');
+    const parentNode = event.target.closest('.city-list');
     const id = Number(parentNode.id);
     return id;
 }
@@ -138,8 +134,8 @@ async function actionCityWeather(e) {
     }
 
     if (action === 'update') {
-        const up = await updateCityWeather(id);
-        console.log(up)
+        const upId = await updateCityWeather(id);
+        console.log(upId)
         renderCityWeather();
     }
 }
