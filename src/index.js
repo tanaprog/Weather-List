@@ -31,14 +31,6 @@ function deleteCityWeather(id) {
     CITY_WEATHER.splice(cityId, 1);
 }
 
-async function updateCityWeather(id) {
-    const updateWeather = CITY_WEATHER.find((city) => city.id === id);
-    console.log(updateWeather)
-    const request = await fetch(apiUrl + updateWeather.name + `&appid=${apiKey}`);
-    const data = await request.json();
-    return data;
-}
-
 function getInputText(event) {
     event.preventDefault();
 
@@ -83,7 +75,6 @@ function renderCityWeather() {
                           </div>
                           </div>
                           <div class="button">
-                          <button type="button" data-action="update" class="button-update btn">update</button>
                           <button type="button" data-action="delete" class="button-delete btn">delete</button>
                           </div>                 
        `;
@@ -130,12 +121,6 @@ async function actionCityWeather(e) {
 
     if (action === 'delete') {
         deleteCityWeather(id);
-        renderCityWeather();
-    }
-
-    if (action === 'update') {
-        const upId = await updateCityWeather(id);
-        console.log(upId)
         renderCityWeather();
     }
 }
