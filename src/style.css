@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital@1&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Protest+Riot&family=Quicksand:wght@500&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
+
 :root {
     --background-color: rgb(28, 39, 39);
     --text-color: #4e4588;
@@ -22,7 +23,7 @@ body {
 .form {
     display: flex;
     justify-content: center;
-    margin: 100px auto;
+    margin: 100px auto 35px;
     gap: 15px;
 }
 
@@ -63,14 +64,19 @@ body {
     text-align: center;
 }
 
+.temp {
+    margin: 20px 0 5px;
+}
+
 .cityName {
     color: var(--text-color);
     font-size: 35px;
+    margin: 10px 0;
 }
 
-h2 {
+/* h2 {
     margin-top: -20px;
-}
+} */
 
 .hum-wind {
     display: flex;
@@ -125,9 +131,84 @@ h2 {
 .text-error {
     font-size: 30px;
     font-weight: bolder;
-    margin-top: -20px;
+    /* margin-top: -20px; */
     margin-bottom: 30px;
     color: var(--empte-text);
     display: flex;
     justify-content: center;
+}
+
+.list-tabs {
+    border: 1px solid white;
+    border-radius: 15px;
+    width: 250px;
+    padding: 0 15px;
+}
+
+.tabs-container {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    font-size: 20px;
+    padding: 5px 0;
+    margin: 5px;
+}
+
+.tab-title {
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+/* .tabs-wrapper {
+    background-color: aqua;
+    color: beige;
+} */
+
+.favorit {
+    display: flex;
+    justify-content: flex-end;
+    margin: 15px 20px 0;
+}
+
+.btn-favorite {
+    cursor: pointer;
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    background-image: url('../src/img/stars.png');
+    background-size: cover;
+}
+
+.btn-favorite2 {
+    cursor: pointer;
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    background-image: url('../src/img/star2.png');
+    background-size: cover;
+}
+
+.icon-img {
+    pointer-events: none;
+    width: 25px;
+    height: 25px;
+}
+
+.active {
+    display: block;
+    background-color: yellow;
+    display: block;
+    color: var(--background-color)
+}
+
+
+
+.hidden {
+    background-color: green;
+    display: none;
+    color: white;
 }
