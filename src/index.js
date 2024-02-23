@@ -9,13 +9,6 @@ const listTabs = document.querySelector('.list-tabs')
 const textError = document.querySelector('.text-error');
 const tabOne = document.querySelector('.tab-one');
 const tabTwo = document.querySelector('.tab-two');
-const tabsAll = document.querySelector('.tabs-wrapper')
-const tabFavorite = document.getElementById('tab-2')
-const tabCyties = document.getElementById('tab-1')
-
-const tabTitle = document.querySelectorAll('.tab-title')
-const tabContent = document.querySelectorAll('.tab-content')
-
 
 let CITY_WEATHER = [];
 let CITY_WEATHER_FAVORITE = [];
@@ -25,7 +18,6 @@ async function getCityWeather(city) {
     const data = await response.json();
     return data;
 }
-
 
 function createElement(tag, className) {
     let element = document.createElement(tag);
@@ -42,7 +34,12 @@ function deleteCityWeather(id) {
     CITY_WEATHER.splice(cityId, 1);
 }
 
-function changeIconStar(id) {
+function deleteCityWeatherFavorite(id) {
+    const cityId = CITY_WEATHER_FAVORITE.findIndex((city) => city.id === id);
+    CITY_WEATHER_FAVORITE.splice(cityId, 1);
+}
+
+function pushIconChangeClass(id) {
     const cityFavorite = CITY_WEATHER.find((city) => city.id === id);
     cityFavorite.isFavorite = !cityFavorite.isFavorite;
 }
@@ -50,48 +47,28 @@ function changeIconStar(id) {
 function addCityWeatherInFavorite(id) {
     const findCity = CITY_WEATHER.find((city) => city.id === id);
     if (findCity.isFavorite) {
-        CITY_WEATHER_FAVORITE.push(findCity)
-        console.log(CITY_WEATHER_FAVORITE)
+        CITY_WEATHER_FAVORITE.push(findCity);
     }
     if (!findCity.isFavorite) {
-        CITY_WEATHER_FAVORITE.pop(findCity)
+        CITY_WEATHER_FAVORITE.pop(findCity);
+    }
+    if (!tabTwo.classList.contains('active')) {
+        tabTwo.classList.add('active');
+        tabOne.classList.remove('active');
     }
 }
-
-
-// function activeButtonTab (){
-//     tabTitle.forEach((item) => {
-//         if(!item.classList.contains('active')){
-//            item.classList.add('active')
-//         }else{
-//         item.classList.remove('active')
-//       }
-//     })
-// }
-// Функция перебипает все Tab-кнопки
-
 
 function changeActiveBtnAllCities() {
     if (!tabOne.classList.contains('active')) {
         tabOne.classList.add('active')
         tabTwo.classList.remove('active')
     }
-    if (tabCyties.classList.contains('active')) {
-        tabCyties.classList.remove('hidden');
-        tabFavorite.classList.add('hidden')
-    }
-
 }
 
 function changeActiveBtnFavorite() {
     if (!tabTwo.classList.contains('active')) {
         tabTwo.classList.add('active');
         tabOne.classList.remove('active');
-    }
-    if (tabFavorite.classList.contains('hidden')) {
-        tabFavorite.classList.remove('hidden');
-        tabFavorite.classList.add('active');
-        tabCyties.classList.add('hidden');
     }
 }
 
@@ -119,39 +96,10 @@ function getCityFavoriteId(event) {
     return id;
 }
 
-
-
-
-// ///////////
-// function tabs() {
-//     const elemTabs = createElement('div', 'tabs');
-
-//     const createTabs = `<div class="tabs5">
-//  <div class="tabs-container">
-//      <div data-tab="tab-1" class="tab-one tab-title active">All cities</div>
-//      <div data-tab="tab-2" class="tab-two tab-title">Favorit</div>
-//  </div>
-//  <div class="tabs-wrapper">
-//      <div id="tab-1" class="tab-content active"></div>
-//      <div id="tab-2" class="tab-content hidden-tab-content"></div>
-//  </div>
-// </div>`;
-
-//     elemTabs.innerHTML = createTabs;
-//     listTabs.appendChild(elemTabs)
-// }
-// //////////////
-
-
-// tabs();
-
-
-
-
-function renderCityWeather() {
+function renderCityWeather(arrayList) {
     cityWeather.innerHTML = '';
 
-    CITY_WEATHER.forEach((city) => {
+    arrayList.forEach((city) => {
         const favoriteClass = city.isFavorite ? "btn-favorite btn-favorite2" : "btn-favorite"
         const elementDiv = createElement('div', "city-list");
         elementDiv.setAttribute('id', city.id);
@@ -210,10 +158,9 @@ async function controllerCityWeather(e) {
             humidity: city.main.humidity,
             wind: Math.round(city.wind.speed),
         }
-
         removeInputText();
         addCityWeather(newCityWeather);
-        renderCityWeather();
+        renderCityWeather(CITY_WEATHER);
     }
     console.log(CITY_WEATHER)
 }
@@ -224,48 +171,35 @@ function actionCityWeather(e) {
 
     if (action === 'delete') {
         deleteCityWeather(id);
-        renderCityWeather();
+        deleteCityWeatherFavorite(id);
+        renderCityWeather(CITY_WEATHER);
+        renderCityWeather(CITY_WEATHER_FAVORITE);
     }
 
     if (action === 'favorite') {
-        changeIconStar(id);
+        pushIconChangeClass(id);
         addCityWeatherInFavorite(id);
-        renderCityWeather();
+        renderCityWeather(CITY_WEATHER_FAVORITE);
     }
 }
-
-// function pushFavoriteCities (id){
-//     CITY_WEATHER.forEach((city) => {
-//         if(city.isFavorite){
-//             tabFavorite.append(city.name)
-//         }
-//         if(!city.isFavorite){
-//             tabCyties.append(city.name + city.temp)
-//         }
-//     });
-// }
 
 function actionCityFavorit(e) {
     const id = getCityFavoriteId(e);
     const tab = e.target.dataset.tab;
 
     if (tab === "tab-1") {
+        renderCityWeather(CITY_WEATHER)
         changeActiveBtnAllCities();
-        // activeButtonTab()
-        // pushFavoriteCities()
-        console.log(CITY_WEATHER);
     }
 
     if (tab === "tab-2") {
+        renderCityWeather(CITY_WEATHER_FAVORITE)
         changeActiveBtnFavorite();
-        // pushFavoriteCities ()
-        // activeButtonTab()
-        console.log(CITY_WEATHER_FAVORITE);
     }
 }
 
 function init() {
-    renderCityWeather;
+    renderCityWeather(CITY_WEATHER);
 
     form.addEventListener('submit', controllerCityWeather);
     cityWeather.addEventListener('click', actionCityWeather);
