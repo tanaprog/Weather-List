@@ -52,10 +52,8 @@ function addCityWeatherInFavorite(id) {
     if (!findCity.isFavorite) {
         CITY_WEATHER_FAVORITE.pop(findCity);
     }
-    if (!tabTwo.classList.contains('active')) {
-        tabTwo.classList.add('active');
-        tabOne.classList.remove('active');
-    }
+    changeActiveBtnAllCities();
+    changeActiveBtnFavorite();
 }
 
 function changeActiveBtnAllCities() {
