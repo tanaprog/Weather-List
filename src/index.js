@@ -29,14 +29,9 @@ function addCityWeather(newCityWeather) {
     CITY_WEATHER.push(newCityWeather);
 }
 
-function deleteCityWeather(id) {
-    const cityId = CITY_WEATHER.findIndex((city) => city.id === id);
-    CITY_WEATHER.splice(cityId, 1);
-}
-
-function deleteCityWeatherFavorite(id) {
-    const cityId = CITY_WEATHER_FAVORITE.findIndex((city) => city.id === id);
-    CITY_WEATHER_FAVORITE.splice(cityId, 1);
+function deleteCityWeather(id, allCities) {
+    const cityId = allCities.findIndex((city) => city.id === id);
+    allCities.splice(cityId, 1);
 }
 
 function pushIconChangeClass(id) {
@@ -52,8 +47,6 @@ function addCityWeatherInFavorite(id) {
     if (!findCity.isFavorite) {
         CITY_WEATHER_FAVORITE.pop(findCity);
     }
-    changeActiveBtnAllCities();
-    changeActiveBtnFavorite();
 }
 
 function changeActiveBtnAllCities() {
@@ -168,16 +161,25 @@ function actionCityWeather(e) {
     const action = e.target.dataset.action;
 
     if (action === 'delete') {
-        deleteCityWeather(id);
-        deleteCityWeatherFavorite(id);
-        renderCityWeather(CITY_WEATHER);
-        renderCityWeather(CITY_WEATHER_FAVORITE);
+        if (CITY_WEATHER_FAVORITE) {
+            deleteCityWeather(id, CITY_WEATHER_FAVORITE);
+            renderCityWeather(CITY_WEATHER_FAVORITE);
+            changeActiveBtnFavorite();
+        }
+        if (CITY_WEATHER) {
+            deleteCityWeather(id, CITY_WEATHER);
+            renderCityWeather(CITY_WEATHER);
+            changeActiveBtnAllCities();
+        }
     }
 
     if (action === 'favorite') {
         pushIconChangeClass(id);
         addCityWeatherInFavorite(id);
+        changeActiveBtnAllCities();
+        changeActiveBtnFavorite();
         renderCityWeather(CITY_WEATHER_FAVORITE);
+
     }
 }
 
