@@ -9,14 +9,21 @@ const listTabs = document.querySelector('.list-tabs')
 const textError = document.querySelector('.text-error');
 const tabOne = document.querySelector('.tab-one');
 const tabTwo = document.querySelector('.tab-two');
+const tabsContainer = document.querySelectorAll('.tabs-container')
 
 let CITY_WEATHER = [];
 let CITY_WEATHER_FAVORITE = [];
 
 async function getCityWeather(city) {
-    const response = await fetch(apiUrl + city + `&appid=${apiKey}`)
-    const data = await response.json();
-    return data;
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+
+    if (response.status == 404) {
+        alert("This city name is not correct");
+    } else {
+        const data = await response.json();
+        return data;
+
+    }
 }
 
 function createElement(tag, className) {
@@ -34,7 +41,7 @@ function deleteCityWeather(id, allCities) {
     allCities.splice(cityId, 1);
 }
 
-function pushIconChangeClass(id) {
+function toggleFavoriteCity(id) {
     const cityFavorite = CITY_WEATHER.find((city) => city.id === id);
     cityFavorite.isFavorite = !cityFavorite.isFavorite;
 }
@@ -49,19 +56,20 @@ function addCityWeatherInFavorite(id) {
     }
 }
 
-function changeActiveBtnAllCities() {
-    if (!tabOne.classList.contains('active')) {
-        tabOne.classList.add('active')
-        tabTwo.classList.remove('active')
+function changeActiveBtnAllCities(className) {
+    if (!tabOne.classList.contains(className)) {
+        tabOne.classList.add(className)
+        tabTwo.classList.remove(className)
     }
 }
 
-function changeActiveBtnFavorite() {
-    if (!tabTwo.classList.contains('active')) {
-        tabTwo.classList.add('active');
-        tabOne.classList.remove('active');
+function changeActiveBtnFavorite(className) {
+    if (!tabTwo.classList.contains(className)) {
+        tabTwo.classList.add(className);
+        tabOne.classList.remove(className);
     }
 }
+
 
 function getInputText(event) {
     event.preventDefault();
@@ -81,7 +89,7 @@ function getCityId(event) {
     return id;
 }
 
-function getCityFavoriteId(event) {
+function getElementId(event) {
     const parentNode = event.target.closest('.tabs');
     const id = Number(parentNode.id);
     return id;
@@ -128,7 +136,7 @@ function renderCityWeather(arrayList) {
 
 function emptyText() {
     const text = createElement('p', 'text-error');
-    text.innerHTML = "You must Enter city";
+    text.innerHTML = "You must Enter city name";
     textError.innerHTML = ''
     textError.appendChild(text);
 }
@@ -153,7 +161,6 @@ async function controllerCityWeather(e) {
         addCityWeather(newCityWeather);
         renderCityWeather(CITY_WEATHER);
     }
-    console.log(CITY_WEATHER)
 }
 
 function actionCityWeather(e) {
@@ -174,27 +181,25 @@ function actionCityWeather(e) {
     }
 
     if (action === 'favorite') {
-        pushIconChangeClass(id);
-        addCityWeatherInFavorite(id);
-        changeActiveBtnAllCities();
-        changeActiveBtnFavorite();
+        toggleFavoriteCity(id);
         renderCityWeather(CITY_WEATHER_FAVORITE);
-
+        addCityWeatherInFavorite(id);
+        renderCityWeather(CITY_WEATHER);
     }
 }
 
 function actionCityFavorit(e) {
-    const id = getCityFavoriteId(e);
+    const id = getElementId(e);
     const tab = e.target.dataset.tab;
 
     if (tab === "tab-1") {
-        renderCityWeather(CITY_WEATHER)
-        changeActiveBtnAllCities();
+        renderCityWeather(CITY_WEATHER);
+        changeActiveBtnAllCities("active");
     }
 
     if (tab === "tab-2") {
-        renderCityWeather(CITY_WEATHER_FAVORITE)
-        changeActiveBtnFavorite();
+        renderCityWeather(CITY_WEATHER_FAVORITE);
+        changeActiveBtnFavorite("active");
     }
 }
 

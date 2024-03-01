@@ -131,7 +131,6 @@ input::placeholder {
 .text-error {
     font-size: 30px;
     font-weight: bolder;
-    /* margin-top: -20px; */
     margin-bottom: 50px;
     color: var(--empte-text);
     display: flex;
