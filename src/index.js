@@ -5,16 +5,32 @@ const form = document.querySelector('.form');
 const enterCity = document.querySelector('.enter-city');
 const searchCity = document.querySelector('.search-city');
 const cityWeather = document.querySelector('.city-weather');
-const textError = document.querySelector('.text-error')
+const listTabs = document.querySelector('.list-tabs')
+const textError = document.querySelector('.text-error');
+const tabOne = document.querySelector('.tab-one');
+const tabTwo = document.querySelector('.tab-two');
+const tabsContainer = document.querySelectorAll('.tabs-container')
 
-let CITY_WEATHER = [];
-
-async function getCityWeather(city) {
-    const response = await fetch(apiUrl + city + `&appid=${apiKey}`)
-    const data = await response.json();
-    return data;
+const NAME_TAB = {
+    ALL_CITIES: "tab-1",
+    FAVORITE: "tab-2",
 }
 
+let CITY_WEATHER = [];
+let CITY_WEATHER_FAVORITE = [];
+let ACTIVE_TAB = NAME_TAB.ALL_CITIES;
+
+async function getCityWeather(city) {
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+
+    if (response.status == 404) {
+        alert("This city name is not correct");
+    } else {
+        const data = await response.json();
+        return data;
+
+    }
+}
 
 function createElement(tag, className) {
     let element = document.createElement(tag);
@@ -26,10 +42,40 @@ function addCityWeather(newCityWeather) {
     CITY_WEATHER.push(newCityWeather);
 }
 
-function deleteCityWeather(id) {
-    const cityId = CITY_WEATHER.findIndex((city) => city.id === id);
-    CITY_WEATHER.splice(cityId, 1);
+function deleteCityWeather(id, allCities) {
+    const cityId = allCities.findIndex((city) => city.id === id);
+    allCities.splice(cityId, 1);
 }
+
+function toggleFavoriteCity(id) {
+    const cityFavorite = CITY_WEATHER.find((city) => city.id === id);
+    cityFavorite.isFavorite = !cityFavorite.isFavorite;
+}
+
+// function addCityWeatherInFavorite(id) {
+//     const findCity = CITY_WEATHER.find((city) => city.id === id);
+//     if (findCity.isFavorite) {
+//         CITY_WEATHER_FAVORITE.push(findCity);
+//     }
+//     if (!findCity.isFavorite) {
+//         CITY_WEATHER_FAVORITE.pop(findCity);
+//     }
+// }
+
+function changeActiveBtnAllCities(className) {
+    if (!tabOne.classList.contains(className)) {
+        tabOne.classList.add(className)
+        tabTwo.classList.remove(className)
+    }
+}
+
+function changeActiveBtnFavorite(className) {
+    if (!tabTwo.classList.contains(className)) {
+        tabTwo.classList.add(className);
+        tabOne.classList.remove(className);
+    }
+}
+
 
 function getInputText(event) {
     event.preventDefault();
@@ -49,14 +95,24 @@ function getCityId(event) {
     return id;
 }
 
-function renderCityWeather() {
+function getElementId(event) {
+    const parentNode = event.target.closest('.tabs');
+    const id = Number(parentNode.id);
+    return id;
+}
+
+function renderCityWeather(arrayList) {
     cityWeather.innerHTML = '';
 
-    CITY_WEATHER.forEach((city) => {
+    arrayList.forEach((city) => {
+        const favoriteClass = city.isFavorite ? "btn-favorite btn-favorite2" : "btn-favorite"
         const elementDiv = createElement('div', "city-list");
         elementDiv.setAttribute('id', city.id);
 
-        const cityList = `<h1 class="temp city-list__temp">${city.temp + '°'}c</h1>
+        const cityList = `<div class="favorit">
+                         <button class="${favoriteClass}" data-action="favorite"></button>
+                         </div>
+                          <h1 class="temp city-list__temp">${city.temp + '°'}c</h1>
                           <h2 class="cityName city-list__cityName">${city.name}</h2>
                           <div class="hum-wind city-list__hum-wind">
                           <div class="humidity-wrapper hum-wind__humidity-wrapper">
@@ -86,7 +142,7 @@ function renderCityWeather() {
 
 function emptyText() {
     const text = createElement('p', 'text-error');
-    text.innerHTML = "You must Enter city";
+    text.innerHTML = "You must Enter city name";
     textError.innerHTML = ''
     textError.appendChild(text);
 }
@@ -107,29 +163,64 @@ async function controllerCityWeather(e) {
             humidity: city.main.humidity,
             wind: Math.round(city.wind.speed),
         }
-
         removeInputText();
         addCityWeather(newCityWeather);
-        renderCityWeather();
+        renderCityWeather(CITY_WEATHER);
     }
-    console.log(CITY_WEATHER)
 }
 
-async function actionCityWeather(e) {
+function actionCityWeather(e) {
     const id = getCityId(e);
     const action = e.target.dataset.action;
 
     if (action === 'delete') {
-        deleteCityWeather(id);
-        renderCityWeather();
+        if (ACTIVE_TAB === NAME_TAB.FAVORITE) {
+            deleteCityWeather(id, CITY_WEATHER);
+            renderCityWeather(CITY_WEATHER.filter((item) => item.isFavorite));
+            changeActiveBtnFavorite();
+        }
+        if (ACTIVE_TAB === NAME_TAB.ALL_CITIES) {
+            deleteCityWeather(id, CITY_WEATHER);
+            renderCityWeather(CITY_WEATHER);
+            changeActiveBtnAllCities();
+        }
+    }
+
+    if (action === 'favorite') {
+        toggleFavoriteCity(id);
+        // addCityWeatherInFavorite(id);
+        if (ACTIVE_TAB === NAME_TAB.ALL_CITIES) {
+            renderCityWeather(CITY_WEATHER);
+        }
+        if (ACTIVE_TAB === NAME_TAB.FAVORITE) {
+            renderCityWeather(CITY_WEATHER.filter((item) => item.isFavorite));
+        }
+    }
+}
+
+function actionCityFavorit(e) {
+    const id = getElementId(e);
+    const tab = e.target.dataset.tab;
+
+    if (tab === NAME_TAB.ALL_CITIES) {
+        ACTIVE_TAB = NAME_TAB.ALL_CITIES;
+        renderCityWeather(CITY_WEATHER);
+        changeActiveBtnAllCities("active");
+    }
+
+    if (tab === NAME_TAB.FAVORITE) {
+        ACTIVE_TAB = NAME_TAB.FAVORITE;
+        renderCityWeather(CITY_WEATHER.filter((item) => item.isFavorite));
+        changeActiveBtnFavorite("active");
     }
 }
 
 function init() {
-    renderCityWeather;
+    renderCityWeather(CITY_WEATHER);
 
     form.addEventListener('submit', controllerCityWeather);
     cityWeather.addEventListener('click', actionCityWeather);
+    listTabs.addEventListener('click', actionCityFavorit)
 }
 
 init()
