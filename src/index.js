@@ -188,7 +188,6 @@ function actionCityWeather(e) {
 
     if (action === 'favorite') {
         toggleFavoriteCity(id);
-        // addCityWeatherInFavorite(id);
         if (ACTIVE_TAB === NAME_TAB.ALL_CITIES) {
             renderCityWeather(CITY_WEATHER);
         }
@@ -199,25 +198,41 @@ function actionCityWeather(e) {
 }
 
 function actionCityFavorit(e) {
-    const id = getElementId(e);
     const tab = e.target.dataset.tab;
 
     if (tab === NAME_TAB.ALL_CITIES) {
+        window.location.hash = "all-cities";
+    }
+
+    if (tab === NAME_TAB.FAVORITE) {
+        window.location.hash = "favorite";
+    }
+}
+
+function controllerButton(){
+    if (location.hash === "#all-cities") {
         ACTIVE_TAB = NAME_TAB.ALL_CITIES;
         renderCityWeather(CITY_WEATHER);
         changeActiveBtnAllCities("active");
     }
 
-    if (tab === NAME_TAB.FAVORITE) {
+    if (location.hash === "#favorite") {
         ACTIVE_TAB = NAME_TAB.FAVORITE;
         renderCityWeather(CITY_WEATHER.filter((item) => item.isFavorite));
         changeActiveBtnFavorite("active");
     }
 }
 
+function updatePage() {
+    const newUrl = history.replaceState(null, null, "#all-cities");
+    return newUrl;
+}
+
 function init() {
+    updatePage();
     renderCityWeather(CITY_WEATHER);
 
+    window.addEventListener ("hashchange", controllerButton);
     form.addEventListener('submit', controllerCityWeather);
     cityWeather.addEventListener('click', actionCityWeather);
     listTabs.addEventListener('click', actionCityFavorit)
