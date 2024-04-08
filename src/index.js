@@ -209,7 +209,7 @@ function actionCityFavorit(e) {
     }
 }
 
-function controllerButton(){
+function controllerWeatherCards(){
     if (location.hash === "#all-cities") {
         ACTIVE_TAB = NAME_TAB.ALL_CITIES;
         renderCityWeather(CITY_WEATHER);
@@ -232,7 +232,7 @@ function init() {
     updatePage();
     renderCityWeather(CITY_WEATHER);
 
-    window.addEventListener ("hashchange", controllerButton);
+    window.addEventListener ("hashchange", controllerWeatherCards);
     form.addEventListener('submit', controllerCityWeather);
     cityWeather.addEventListener('click', actionCityWeather);
     listTabs.addEventListener('click', actionCityFavorit)
