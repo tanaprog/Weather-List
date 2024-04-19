@@ -24,16 +24,6 @@ let CITY_WEATHER = [];
 let CITY_WEATHER_FAVORITE = [];
 let ACTIVE_TAB = NAME_TAB.ALL_CITIES;
 
-let POPUP = [
-    {
-        id: 5,
-        text: "HIIIIIIII"
-    },
-    {
-        id: 7,
-        text: "HOOOOOOOOO"
-    }
-];
 
 async function getCityWeather(city) {
     load();
@@ -83,15 +73,17 @@ function toggleFavoriteCity(id) {
 //////////////////////////////////////////////////////////////////
 
 function deletePopup(id) {
-    const popupId = POPUP.findIndex((item) => item.id === id);
-    POPUP.splice(popupId, 1);
+    const popupId = CITY_WEATHER.findIndex((item) => item.id === id);
+    CITY_WEATHER.splice(popupId, 1);
 }
 
 function toggleFavoritePopup(id) {
-    const popupFavorite = POPUP.find((item) => item.id === id);
-    console.log(POPUP)
+    const popupFavorite = CITY_WEATHER.find((item) => item.id === id);
+    console.log(popupFavorite)
     popupFavorite.isFavorite = !popupFavorite.isFavorite;
 }
+
+///////////////////////////////////////////////////////////////////
 
 
 function changeActiveBtnAllCities(className) {
@@ -142,9 +134,8 @@ function getPopupId(event) {
 
 function renderPopup(id) {
     popup.innerHTML = '';
-    console.log(id)
 
-    POPUP.forEach((item) => {
+    CITY_WEATHER.forEach((item) => {
         const favoriteClass = item.isFavorite ? "btn-favorite-popup btn-favorite2-popup" : "btn-favorite-popup"
         const elementDiv = createElement('div', "popup__content");
         elementDiv.setAttribute('id', item.id);
@@ -157,14 +148,14 @@ function renderPopup(id) {
         
                          <div data-action="close" class="popup__close">&#10006</div>
 
-                         <h1 class="popup-temp">22°c</h1>
-                         <h2 class="popup-cityName">Moscow</h2>
+                         <h1 class="popup-temp">${item.temp + '°'}c</h1>
+                         <h2 class="popup-cityName">${item.name}</h2>
 
                         <div class="popup-hum-wind ">
                         <div class="popup-humidity-wrapper ">
                         <img class="popup-wind-wrapper icon" src="img/humidity.png" alt="icon humidity">
                         <div class="text">
-                            <p class="humidity">50%</p>
+                            <p class="humidity">${item.humidity + ' %'}</p>
                             <p class="popup-hum-wind-text">Humidity</p>
                         </div>
                         </div>
@@ -172,7 +163,7 @@ function renderPopup(id) {
                         <div class="wind-wrapper hum-wind__wind-wrapper">
                         <img class="wind-icon icon" src="img/wind.png" alt="icon wind">
                         <div class="text">
-                        <p class="wind">15 km/h</p>
+                        <p class="wind">${item.wind + ' km/h'}</p>
                         <p class="hum-wind-text">Wind</p>
                          </div>
                          </div>
@@ -187,6 +178,8 @@ function renderPopup(id) {
         popup.appendChild(elementDiv);
     })
 }
+
+//////////////////////////////////////////////////////
 
 function renderCityWeather(arrayList) {
     cityWeather.innerHTML = '';
@@ -221,7 +214,7 @@ function renderCityWeather(arrayList) {
                           <button type="button" data-action="delete" class="button-delete btn">delete</button>
                           </div>                 
        `;
-       renderPopup(city.id)
+        renderPopup(city.id)
         elementDiv.innerHTML = cityList;
         cityWeather.appendChild(elementDiv);
     })
@@ -362,7 +355,6 @@ function init() {
     updatePage();
     renderCityWeather(CITY_WEATHER);
     renderPopup();
-    console.log(CITY_WEATHER)
 
     window.addEventListener("hashchange", controllerWeatherCards);
     form.addEventListener('submit', controllerCityWeather);
