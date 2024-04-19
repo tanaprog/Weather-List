@@ -8,6 +8,7 @@
     --background-for-btn: linear-gradient(135deg, #3f3a5c, #2fac8a);
     --empte-text: rgb(226, 16, 16);
     --text-btn-and-text-cards: white;
+    --active-button: yellow;
 }
 
 body {
@@ -50,6 +51,10 @@ input::placeholder {
     color: var(--text-btn-and-text-cards);
     cursor: pointer;
     padding: 5px 10px;
+}
+
+.search-city-hiden {
+    display: none;
 }
 
 .city-weather {
@@ -102,6 +107,45 @@ input::placeholder {
 .hum-wind-text {
     margin-top: -20px;
 }
+
+/*POPUP*/
+
+.popup-temp {
+    margin: 20px 0 5px;
+}
+
+.popup-cityName {
+    color: var(--text-color);
+    font-size: 35px;
+    margin: 10px 0;
+}
+
+.popup-hum-wind {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin: 0 20px 15px 20px;
+}
+
+.popup-humidity-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.popup-wind-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    align-items: center;
+}
+
+.popup-hum-wind-text {
+    margin-top: -20px;
+}
+
+
 
 .icon {
     width: 35px;
@@ -187,6 +231,28 @@ input::placeholder {
     background-size: cover;
 }
 
+.btn-favorite-popup {
+    cursor: pointer;
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    background-image: url('../src/img/stars.png');
+    background-size: cover;
+    margin: 13px 25px 0;
+}
+
+.btn-favorite2-popup {
+    cursor: pointer;
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    background-image: url('../src/img/star2.png');
+    background-size: cover;
+    margin: 13px 25px 0;
+}
+
 .icon-img {
     pointer-events: none;
     width: 25px;
@@ -195,13 +261,97 @@ input::placeholder {
 
 .active {
     display: block;
-    background-color: yellow;
+    background-color: var(--active-button);
     display: block;
     color: var(--background-color)
 }
 
-.hidden {
+/* .hidden {
     background-color: green;
     display: none;
     color: var(--text-btn-and-text-cards);
+} */
+
+.popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0, 0.8);
+    font-size: 18px;
+    text-align: center;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+/* .popup__body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 10px;
+} */
+
+/* .popup__content {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: rgb(166, 212, 233);
+    width: 300px;
+    height: 300px;
+    padding: 15px;
+    border-radius: 25px;
+    position: relative;
+} */
+
+.popup__content {
+    width: 300px;
+    height: 300px;
+    background-color: rgb(166, 212, 233);
+    border-radius: 25px;
+    margin: 200px auto;
+    position: relative;
+}
+
+.popup__close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.open-popup {
+    display: block;
+}
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+
+/* LOADER */
+
+.loader {
+    width: 38px;
+    height: 38px;
+    border: 2px solid aqua;
+    border-radius: 50%;
+    border-left-color: var(--text-color);
+    animation: loader 1.5s linear infinite;
+    margin-top: 5px;
+    display: none;
+}
+
+@keyframes loader {
+    100%
+    {
+        transform: rotate(360deg);
+    }
+}
+
+.loader-visible {
+    display: block;
 }

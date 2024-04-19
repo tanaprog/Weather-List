@@ -9,11 +9,7 @@ const listTabs = document.querySelector('.list-tabs')
 const textError = document.querySelector('.text-error');
 const tabOne = document.querySelector('.tab-one');
 const tabTwo = document.querySelector('.tab-two');
-const tabsContainer = document.querySelectorAll('.tabs-container');
-
-// const citiesList = document.querySelector('.city-list');
-const popup = document.querySelector('.popup');
-const loader = document.querySelector('.loader');
+const tabsContainer = document.querySelectorAll('.tabs-container')
 
 const NAME_TAB = {
     ALL_CITIES: "tab-1",
@@ -24,21 +20,9 @@ let CITY_WEATHER = [];
 let CITY_WEATHER_FAVORITE = [];
 let ACTIVE_TAB = NAME_TAB.ALL_CITIES;
 
-let POPUP = [
-    {
-        id: 5,
-        text: "HIIIIIIII"
-    },
-    {
-        id: 7,
-        text: "HOOOOOOOOO"
-    }
-];
-
 async function getCityWeather(city) {
-    load();
-
     const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+
     if (response.status == 404) {
         alert("This city name is not correct");
     } else {
@@ -47,18 +31,6 @@ async function getCityWeather(city) {
 
     }
 }
-
-function load() {
-
-    searchCity.classList.add('search-city-hiden');
-    loader.classList.add('loader-visible')
-
-    setTimeout(() => {
-        loader.classList.remove('loader-visible');
-        searchCity.classList.remove('search-city-hiden');
-    }, 500);
-}
-
 
 function createElement(tag, className) {
     let element = document.createElement(tag);
@@ -80,19 +52,15 @@ function toggleFavoriteCity(id) {
     cityFavorite.isFavorite = !cityFavorite.isFavorite;
 }
 
-//////////////////////////////////////////////////////////////////
-
-function deletePopup(id) {
-    const popupId = POPUP.findIndex((item) => item.id === id);
-    POPUP.splice(popupId, 1);
-}
-
-function toggleFavoritePopup(id) {
-    const popupFavorite = POPUP.find((item) => item.id === id);
-    console.log(POPUP)
-    popupFavorite.isFavorite = !popupFavorite.isFavorite;
-}
-
+// function addCityWeatherInFavorite(id) {
+//     const findCity = CITY_WEATHER.find((city) => city.id === id);
+//     if (findCity.isFavorite) {
+//         CITY_WEATHER_FAVORITE.push(findCity);
+//     }
+//     if (!findCity.isFavorite) {
+//         CITY_WEATHER_FAVORITE.pop(findCity);
+//     }
+// }
 
 function changeActiveBtnAllCities(className) {
     if (!tabOne.classList.contains(className)) {
@@ -107,6 +75,7 @@ function changeActiveBtnFavorite(className) {
         tabOne.classList.remove(className);
     }
 }
+
 
 function getInputText(event) {
     event.preventDefault();
@@ -130,62 +99,6 @@ function getElementId(event) {
     const parentNode = event.target.closest('.tabs');
     const id = Number(parentNode.id);
     return id;
-}
-
-/////////////////////////////////////////////////////
-
-function getPopupId(event) {
-    const parentNode = event.target.closest('.popup__content');
-    const id = Number(parentNode.id);
-    return id;
-}
-
-function renderPopup(id) {
-    popup.innerHTML = '';
-    console.log(id)
-
-    POPUP.forEach((item) => {
-        const favoriteClass = item.isFavorite ? "btn-favorite-popup btn-favorite2-popup" : "btn-favorite-popup"
-        const elementDiv = createElement('div', "popup__content");
-        elementDiv.setAttribute('id', item.id);
-
-        const popupList = `
-
-                         <div class="favorit">
-                         <button class="${favoriteClass}" data-action="favorite-popup"></button>
-                         </div>
-        
-                         <div data-action="close" class="popup__close">&#10006</div>
-
-                         <h1 class="popup-temp">22°c</h1>
-                         <h2 class="popup-cityName">Moscow</h2>
-
-                        <div class="popup-hum-wind ">
-                        <div class="popup-humidity-wrapper ">
-                        <img class="popup-wind-wrapper icon" src="img/humidity.png" alt="icon humidity">
-                        <div class="text">
-                            <p class="humidity">50%</p>
-                            <p class="popup-hum-wind-text">Humidity</p>
-                        </div>
-                        </div>
-
-                        <div class="wind-wrapper hum-wind__wind-wrapper">
-                        <img class="wind-icon icon" src="img/wind.png" alt="icon wind">
-                        <div class="text">
-                        <p class="wind">15 km/h</p>
-                        <p class="hum-wind-text">Wind</p>
-                         </div>
-                         </div>
-                         </div>
-
-                         <div class="button">
-                         <button type="button" data-action="delete-popup" class="button-delete btn">delete</button>
-                         </div> 
-          
-        `;
-        elementDiv.innerHTML = popupList;
-        popup.appendChild(elementDiv);
-    })
 }
 
 function renderCityWeather(arrayList) {
@@ -221,7 +134,7 @@ function renderCityWeather(arrayList) {
                           <button type="button" data-action="delete" class="button-delete btn">delete</button>
                           </div>                 
        `;
-       renderPopup(city.id)
+
         elementDiv.innerHTML = cityList;
         cityWeather.appendChild(elementDiv);
     })
@@ -296,7 +209,7 @@ function actionCityFavorit(e) {
     }
 }
 
-function controllerWeatherCards() {
+function controllerWeatherCards(){
     if (location.hash === "#all-cities") {
         ACTIVE_TAB = NAME_TAB.ALL_CITIES;
         renderCityWeather(CITY_WEATHER);
@@ -315,63 +228,14 @@ function updatePage() {
     return newUrl;
 }
 
-///////////////////////////////////////////
-
-function actionPopup(e) {
-    const id = getPopupId(e);
-    const action = e.target.dataset.action;
-
-    if (action === 'close') {
-        closePopup();
-    }
-
-    if (action === 'favorite-popup') {
-        toggleFavoritePopup(id);
-    }
-
-    if (action === 'delete-popup') {
-        closePopup();
-        deletePopup(id);
-    }
-
-    if (action === 'popup') {
-        closePopup();
-    }
-
-    renderPopup();
-}
-
-function openPopup(e) {
-    const action = e.target.dataset.action;
-    if (action === 'favorite' || action === 'delete') return;
-
-    if (action === 'city-weather') return;
-
-    popup.classList.add('open-popup');
-    document.body.classList.add('stop-scrolling');
-}
-
-function closePopup(e) {
-    popup.classList.remove('open-popup');
-    document.body.classList.remove('stop-scrolling');
-}
-
-////////////////////////////////////////////
-
 function init() {
     updatePage();
     renderCityWeather(CITY_WEATHER);
-    renderPopup();
-    console.log(CITY_WEATHER)
 
-    window.addEventListener("hashchange", controllerWeatherCards);
+    window.addEventListener ("hashchange", controllerWeatherCards);
     form.addEventListener('submit', controllerCityWeather);
     cityWeather.addEventListener('click', actionCityWeather);
-    listTabs.addEventListener('click', actionCityFavorit);
-    searchCity.addEventListener('click', load)
-
-    cityWeather.addEventListener('click', openPopup);
-    popup.addEventListener('click', actionPopup);
+    listTabs.addEventListener('click', actionCityFavorit)
 }
 
 init()
