@@ -108,8 +108,6 @@ input::placeholder {
     margin-top: -20px;
 }
 
-/*POPUP*/
-
 .popup-temp {
     margin: 20px 0 5px;
 }
@@ -145,14 +143,11 @@ input::placeholder {
     margin-top: -20px;
 }
 
-
-
 .icon {
     width: 35px;
     height: 30px;
     font-weight: bold;
 }
-
 
 .button {
     display: flex;
@@ -207,7 +202,7 @@ input::placeholder {
 
 .favorit {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin: 15px 20px 0;
 }
 
@@ -229,6 +224,16 @@ input::placeholder {
     background-color: transparent;
     background-image: url('../src/img/star2.png');
     background-size: cover;
+}
+
+.open-popup {
+    font-size: 25px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    color: var(--text-btn-and-text-cards);
+    font-weight: 700;
+    background-color: var(--active-button);
 }
 
 .btn-favorite-popup {
@@ -266,12 +271,6 @@ input::placeholder {
     color: var(--background-color)
 }
 
-/* .hidden {
-    background-color: green;
-    display: none;
-    color: var(--text-btn-and-text-cards);
-} */
-
 .popup {
     position: fixed;
     width: 100%;
@@ -284,28 +283,6 @@ input::placeholder {
     display: none;
 }
 
-/* .popup__body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px 10px;
-} */
-
-/* .popup__content {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    background-color: rgb(166, 212, 233);
-    width: 300px;
-    height: 300px;
-    padding: 15px;
-    border-radius: 25px;
-    position: relative;
-} */
-
 .popup__content {
     width: 300px;
     height: 300px;
@@ -317,7 +294,7 @@ input::placeholder {
 
 .popup__close {
     position: absolute;
-    right: 10px;
+    right: 30px;
     top: 10px;
     font-size: 25px;
     cursor: pointer;
@@ -332,7 +309,11 @@ input::placeholder {
     overflow: hidden;
 }
 
-/* LOADER */
+.temp-popup {
+    padding: 15px;
+    color: #4e4588;
+    font-size: 25px;
+}
 
 .loader {
     width: 38px;
@@ -346,8 +327,7 @@ input::placeholder {
 }
 
 @keyframes loader {
-    100%
-    {
+    100% {
         transform: rotate(360deg);
     }
 }
