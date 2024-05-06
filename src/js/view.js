@@ -15,7 +15,7 @@ const NAME_TAB = {
     FAVORITE: "tab-2",
 }
 
-let ACTIVE_TAB = NAME_TAB.ALL_CITIES;
+// let ACTIVE_TAB = NAME_TAB.ALL_CITIES;
 
 function toggleLoad() {
     searchCity.classList.toggle('search-city-hiden');
@@ -188,7 +188,7 @@ function updatePage() {
 
 
 export {form, enterCity, searchCity, cityWeather, listTabs, textError, tabOne, tabTwo, tabsContainer,
-        popup, loader, NAME_TAB, ACTIVE_TAB, 
+        popup, loader, NAME_TAB,
         toggleLoad, renderCityWeather, emptyText, renderPopup, clearPopup,
         openPopup, closePopup, getCityId, getElementId, getPopupId, getInputText, removeInputText,
         createElement, changeActiveBtnAllCities, changeActiveBtnFavorite, updatePage}

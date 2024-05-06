@@ -1,5 +1,5 @@
 import {form, enterCity, searchCity, cityWeather, listTabs, textError, tabOne, tabTwo, tabsContainer,
-    popup, loader, NAME_TAB, ACTIVE_TAB,
+    popup, loader, NAME_TAB, 
     toggleLoad, renderCityWeather, emptyText, renderPopup, clearPopup, openPopup, closePopup,
     getCityId, getElementId, getPopupId, getInputText, removeInputText, createElement,
     changeActiveBtnAllCities, changeActiveBtnFavorite, updatePage
@@ -10,7 +10,7 @@ import {apiKey, apiUrl, CITY_WEATHER, CITY_WEATHER_FAVORITE,
     deletePopup, toggleFavoritePopup
 } from './js/model.js';
 
-
+let ACTIVE_TAB = NAME_TAB.ALL_CITIES;
 
 async function controllerCityWeather(e) {
     const inputText = await getInputText(e);
@@ -85,13 +85,13 @@ function controllerCityFavorite(e) {
 
 function controllerWeatherCards() {
     if (location.hash === "#all-cities") {
-        ACTIVE_TAB === NAME_TAB.ALL_CITIES;
+        ACTIVE_TAB = NAME_TAB.ALL_CITIES;
         renderCityWeather(CITY_WEATHER);
         changeActiveBtnAllCities("active");
     }
 
     if (location.hash === "#favorite") {
-        ACTIVE_TAB === NAME_TAB.FAVORITE;
+        ACTIVE_TAB = NAME_TAB.FAVORITE;
         renderCityWeather(CITY_WEATHER.filter((item) => item.isFavorite));
         changeActiveBtnFavorite("active");
     }
@@ -111,10 +111,10 @@ function controllerPopup(e) {
     }
 
     if (action === 'delete-popup') {
-        // deletePopup(id);
+        deletePopup(id);
         closePopup();
         clearPopup();
-        // renderPopup()
+        renderCityWeather()
     }
 
     if (action === 'popup') {
