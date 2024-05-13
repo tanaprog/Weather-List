@@ -1,27 +1,20 @@
-import {form, enterCity, searchCity, cityWeather, listTabs, textError, tabOne, tabTwo, tabsContainer,
-    popup, loader, NAME_TAB, 
-    toggleLoad, renderCityWeather, emptyText, renderPopup, clearPopup, openPopup, closePopup,
-    getCityId, getElementId, getPopupId, getInputText, removeInputText, createElement,
-    changeActiveBtnAllCities, changeActiveBtnFavorite, updatePage
-} from './js/view.js';
 
-import {apiKey, apiUrl, CITY_WEATHER, CITY_WEATHER_FAVORITE,
-    getCityWeather, addCityWeather, deleteCityWeather, toggleFavoriteCity,
-    deletePopup, toggleFavoritePopup
-} from './js/model.js';
+import { View } from "./js/view.js";
+import { Model } from "./js/model.js";
 
-let ACTIVE_TAB = NAME_TAB.ALL_CITIES;
+
+let ACTIVE_TAB = View.NAME_TAB.ALL_CITIES;
 
 async function controllerCityWeather(e) {
-    const inputText = await getInputText(e);
-    toggleLoad();
-    const city = await getCityWeather(inputText);
-    toggleLoad();
+    const inputText = await View.getInputText(e);
+    View.toggleLoad();
+    const city = await Model.getCityWeather(inputText);
+    View.toggleLoad();
 
-    textError.innerHTML = '';
+    View.textError.innerHTML = '';
 
     if (!inputText) {
-        emptyText();
+        View.emptyText();
     } else {
         const newCityWeather = {
             id: Math.floor(Math.random() * 200) + 1,
@@ -30,107 +23,133 @@ async function controllerCityWeather(e) {
             humidity: city.main.humidity,
             wind: Math.round(city.wind.speed),
         }
-        removeInputText();
-        addCityWeather(newCityWeather);
-        renderCityWeather(CITY_WEATHER);
+        View.removeInputText();
+        Model.addCityWeather(newCityWeather);
+        View.renderCityWeather(Model.CITY_WEATHER);
     }
 }
 
 function controllerCityButton(e) {
-    const id = getCityId(e);
+    const id = View.getCityId(e);
     const action = e.target.dataset.action;
 
     if (action === 'delete') {
-        if (ACTIVE_TAB === NAME_TAB.FAVORITE) {
-            deleteCityWeather(id, CITY_WEATHER);
-            renderCityWeather(CITY_WEATHER.filter((item) => item.isFavorite));
-            changeActiveBtnFavorite();
+        if (ACTIVE_TAB === View.NAME_TAB.FAVORITE) {
+            Model.deleteCityWeather(id, Model.CITY_WEATHER);
+            View.renderCityWeather(Model.CITY_WEATHER.filter((item) => item.isFavorite));
+            View.changeActiveBtnFavorite();
         }
-        if (ACTIVE_TAB === NAME_TAB.ALL_CITIES) {
-            deleteCityWeather(id, CITY_WEATHER);
-            renderCityWeather(CITY_WEATHER);
-            changeActiveBtnAllCities();
+        if (ACTIVE_TAB === View.NAME_TAB.ALL_CITIES) {
+            Model.deleteCityWeather(id, Model.CITY_WEATHER);
+            View.renderCityWeather(Model.CITY_WEATHER);
+            View.changeActiveBtnAllCities();
         }
     }
 
     if (action === 'favorite') {
         toggleFavoriteCity(id);
-        if (ACTIVE_TAB === NAME_TAB.ALL_CITIES) {
-            renderCityWeather(CITY_WEATHER);
+        if (ACTIVE_TAB === View.NAME_TAB.ALL_CITIES) {
+            View.renderCityWeather(Model.CITY_WEATHER);
         }
-        if (ACTIVE_TAB === NAME_TAB.FAVORITE) {
-            renderCityWeather(CITY_WEATHER.filter((item) => item.isFavorite));
+        if (ACTIVE_TAB === View.NAME_TAB.FAVORITE) {
+            View.renderCityWeather(Model.CITY_WEATHER.filter((item) => item.isFavorite));
         }
     }
 
     if (action === 'open-popup') {
-        const infoIndex = CITY_WEATHER.findIndex((item) => item.id === id);
-        const info = CITY_WEATHER[infoIndex];
-        openPopup();
-        renderPopup(info);
+        const infoIndex = Model.CITY_WEATHER.findIndex((item) => item.id === id);
+        const info = Model.CITY_WEATHER[infoIndex];
+        View.openPopup();
+        View.renderPopup(info);
     }
 }
 
 function controllerCityFavorite(e) {
     const tab = e.target.dataset.tab;
 
-    if (tab === NAME_TAB.ALL_CITIES) {
+    if (tab === View.NAME_TAB.ALL_CITIES) {
         window.location.hash = "all-cities";
     }
 
-    if (tab === NAME_TAB.FAVORITE) {
+    if (tab === View.NAME_TAB.FAVORITE) {
         window.location.hash = "favorite";
     }
 }
 
 function controllerWeatherCards() {
     if (location.hash === "#all-cities") {
-        ACTIVE_TAB = NAME_TAB.ALL_CITIES;
-        renderCityWeather(CITY_WEATHER);
-        changeActiveBtnAllCities("active");
+        ACTIVE_TAB = View.NAME_TAB.ALL_CITIES;
+        View.renderCityWeather(Model.CITY_WEATHER);
+        View.changeActiveBtnAllCities("active");
     }
 
     if (location.hash === "#favorite") {
-        ACTIVE_TAB = NAME_TAB.FAVORITE;
-        renderCityWeather(CITY_WEATHER.filter((item) => item.isFavorite));
-        changeActiveBtnFavorite("active");
+        ACTIVE_TAB = View.NAME_TAB.FAVORITE;
+        View.renderCityWeather(Model.CITY_WEATHER.filter((item) => item.isFavorite));
+        View.changeActiveBtnFavorite("active");
     }
 }
 
 function controllerPopup(e) {
-    const id = getPopupId(e);
+    const id = View.getPopupId(e);
     const action = e.target.dataset.action;
 
     if (action === 'close') {
-        closePopup();
-        clearPopup();
+        View.closePopup();
+        View.clearPopup();
     }
 
     if (action === 'favorite-popup') {
-        toggleFavoritePopup(id);
+        Model.toggleFavoritePopup(id);
     }
 
     if (action === 'delete-popup') {
-        deletePopup(id);
-        closePopup();
-        clearPopup();
-        renderCityWeather()
+        Model.deletePopup(id);
+        View.closePopup();
+        View.clearPopup();
+        View.renderCityWeather()
     }
 
     if (action === 'popup') {
-        closePopup();
+        View.closePopup();
     }
 }
 
 function init() {
-    updatePage();
-    renderCityWeather(CITY_WEATHER);
+    View.updatePage();
+    View.renderCityWeather(Model.CITY_WEATHER);
 
     window.addEventListener("hashchange", controllerWeatherCards);
-    form.addEventListener('submit', controllerCityWeather);
-    cityWeather.addEventListener('click', controllerCityButton);
-    listTabs.addEventListener('click', controllerCityFavorite);
-    popup.addEventListener('click', controllerPopup);
+    View.form.addEventListener('submit', controllerCityWeather);
+    View.cityWeather.addEventListener('click', controllerCityButton);
+    this.listTabs.addEventListener('click', controllerCityFavorite);
+    this.popup.addEventListener('click', controllerPopup);
 }
 
 init()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import {form, enterCity, searchCity, cityWeather, listTabs, textError, tabOne, tabTwo, tabsContainer,
+//     popup, loader, NAME_TAB, 
+//     toggleLoad, renderCityWeather, emptyText, renderPopup, clearPopup, openPopup, closePopup,
+//     getCityId, getElementId, getPopupId, getInputText, removeInputText, createElement,
+//     changeActiveBtnAllCities, changeActiveBtnFavorite, updatePage
+// } from './js/view.js';
+
+// import {apiKey, apiUrl, CITY_WEATHER, CITY_WEATHER_FAVORITE,
+//     getCityWeather, addCityWeather, deleteCityWeather, toggleFavoriteCity,
+//     deletePopup, toggleFavoritePopup
+// } from './js/model.js';
