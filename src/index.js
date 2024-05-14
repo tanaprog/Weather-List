@@ -128,28 +128,3 @@ function init() {
 
 init()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import {form, enterCity, searchCity, cityWeather, listTabs, textError, tabOne, tabTwo, tabsContainer,
-//     popup, loader, NAME_TAB, 
-//     toggleLoad, renderCityWeather, emptyText, renderPopup, clearPopup, openPopup, closePopup,
-//     getCityId, getElementId, getPopupId, getInputText, removeInputText, createElement,
-//     changeActiveBtnAllCities, changeActiveBtnFavorite, updatePage
-// } from './js/view.js';
-
-// import {apiKey, apiUrl, CITY_WEATHER, CITY_WEATHER_FAVORITE,
-//     getCityWeather, addCityWeather, deleteCityWeather, toggleFavoriteCity,
-//     deletePopup, toggleFavoritePopup
-// } from './js/model.js';
