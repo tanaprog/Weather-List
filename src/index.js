@@ -3,5 +3,4 @@ import { Model } from "./js/model.js";
 import { Controller } from "./js/controller.js";
 
 const app = new Controller(new View(), new Model());
-
-export { app }
+app.init();

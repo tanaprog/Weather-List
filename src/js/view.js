@@ -1,5 +1,5 @@
 class View {
-    constructor (){
+    constructor() {
         this.form = document.querySelector('.form');
         this.enterCity = document.querySelector('.enter-city');
         this.searchCity = document.querySelector('.search-city');
@@ -17,28 +17,27 @@ class View {
             FAVORITE: "tab-2",
         }
 
-        // this.ACTIVE_TAB = this.NAME_TAB.ALL_CITIES;
     }
 
-    toggleLoad() {
+    toggleLoad = () => {
         this.searchCity.classList.toggle('search-city-hiden');
         this.loader.classList.toggle('loader-visible');
     }
 
-    createElement(tag, className) {
+    createElement = (tag, className) => {
         let element = document.createElement(tag);
         if (className) element.classList.add(className);
         return element;
     }
 
-    renderCityWeather(arrayList) {
+    renderCityWeather = (arrayList) => {
         this.cityWeather.innerHTML = '';
-    
+
         arrayList.forEach((city) => {
             const favoriteClass = city.isFavorite ? "btn-favorite btn-favorite2" : "btn-favorite"
             const elementDiv = this.createElement('div', "city-list");
             elementDiv.setAttribute('id', city.id);
-    
+
             const cityList = `
                              <div class="favorit">
                              <button class="open-popup" data-action="open-popup">popup</button>
@@ -71,26 +70,23 @@ class View {
         })
     }
 
-    emptyText() {
+    emptyText = () => {
         const text = this.createElement('p', 'text-error');
         text.innerHTML = "You must Enter city name";
         this.textError.innerHTML = ''
         this.textError.appendChild(text);
     }
 
-    renderPopup(info) {
+    renderPopup = (info) => {
         const temp = info.temp;
         const name = info.name;
         const humidity = info.humidity;
         const wind = info.wind;
-    
-        const favoriteClass = info.isFavorite ? "btn-favorite-popup btn-favorite2-popup" : "btn-favorite-popup"
+
         const elementDiv = this.createElement('div', "popup__content");
         elementDiv.setAttribute('id', info.id)
-    
-        const infoElement = ` <div class="favorit">
-                              <button class="${favoriteClass}" data-action="favorite-popup"></button>
-                              </div>
+
+        const infoElement = ` 
                               <div data-action="close" class="popup__close">&#10006</div>
     
                               <h1 class="popup-temp">${temp + '°'}c</h1>
@@ -114,81 +110,78 @@ class View {
                               </div>
                               </div>
     
-                              <div class="button">
-                              <button type="button" data-action="delete-popup" class="button-delete btn">delete</button>
-                              </div> 
                              `
             ;
-    
+
         elementDiv.innerHTML = infoElement;
         this.popup.appendChild(elementDiv);
     }
 
-    clearPopup() {
+    clearPopup = () => {
         this.popup.innerHTML = '';
     }
 
-    openPopup() {
+    openPopup = () => {
         this.popup.classList.add('open-popup');
         document.body.classList.add('stop-scrolling');
     }
 
-    closePopup(e) {
+    closePopup = (e) => {
         this.popup.classList.remove('open-popup');
         document.body.classList.remove('stop-scrolling');
     }
 
-    getCityId(event) {
+    getCityId = (event) => {
         const parentNode = event.target.closest('.city-list');
         if (!parentNode?.id) return;
         const id = Number(parentNode.id);
         return id;
     }
 
-    getElementId(event) {
+    getElementId = (event) => {
         const parentNode = event.target.closest('.tabs');
         const id = Number(parentNode.id);
         return id;
     }
 
-    getPopupId(event) {
+    getPopupId = (event) => {
         const parentNode = event.target.closest('.popup__content');
         if (!parentNode?.id) return;
         const id = Number(parentNode.id);
         return id;
     }
 
-    getInputText(event) {
+    getInputText = (event) => {
         event.preventDefault();
-    
+
         const inputCity = this.enterCity.value;
         return inputCity;
     }
 
-    removeInputText() {
+    removeInputText = () => {
         this.enterCity.value = '';
         this.enterCity.focus();
     }
 
-    changeActiveBtnAllCities(className) {
+    changeActiveBtnAllCities = (className) => {
         if (!this.tabOne.classList.contains(className)) {
             this.tabOne.classList.add(className)
             this.tabTwo.classList.remove(className)
         }
     }
 
-    changeActiveBtnFavorite(className) {
+    changeActiveBtnFavorite = (className) => {
         if (!this.tabTwo.classList.contains(className)) {
             this.tabTwo.classList.add(className);
             this.tabOne.classList.remove(className);
         }
     }
 
-    updatePage() {
+    updatePage = () => {
         const newUrl = history.replaceState(null, null, "#all-cities");
         return newUrl;
     }
 
 }
 
-export {View}
+export { View }

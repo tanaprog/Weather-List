@@ -7,13 +7,13 @@ class Controller {
         this.ACTIVE_TAB = View.NAME_TAB.ALL_CITIES;
     }
 
-    async controllerCityWeather(e) {
+    controllerCityWeather = async (e) => {
         const inputText = await this.View.getInputText(e);
         this.View.toggleLoad();
         const city = await this.Model.getCityWeather(inputText);
         this.View.toggleLoad();
 
-        View.textError.innerHTML = '';
+        this.View.textError.innerHTML = '';
 
         if (!inputText) {
             this.View.emptyText();
@@ -31,7 +31,7 @@ class Controller {
         }
     }
 
-    controllerCityButton(e) {
+    controllerCityButton = (e) => {
         const id = this.View.getCityId(e);
         const action = e.target.dataset.action;
 
@@ -49,11 +49,11 @@ class Controller {
         }
 
         if (action === 'favorite') {
-            toggleFavoriteCity(id);
-            if (this.ACTIVE_TAB === View.NAME_TAB.ALL_CITIES) {
+            this.Model.toggleFavoriteCity(id);
+            if (this.ACTIVE_TAB === this.View.NAME_TAB.ALL_CITIES) {
                 this.View.renderCityWeather(this.Model.CITY_WEATHER);
             }
-            if (this.ACTIVE_TAB === View.NAME_TAB.FAVORITE) {
+            if (this.ACTIVE_TAB === this.View.NAME_TAB.FAVORITE) {
                 this.View.renderCityWeather(this.Model.CITY_WEATHER.filter((item) => item.isFavorite));
             }
         }
@@ -66,7 +66,7 @@ class Controller {
         }
     }
 
-    controllerCityFavorite(e) {
+    controllerCityFavorite = (e) => {
         const tab = e.target.dataset.tab;
 
         if (tab === this.View.NAME_TAB.ALL_CITIES) {
@@ -78,7 +78,7 @@ class Controller {
         }
     }
 
-    controllerWeatherCards() {
+    controllerWeatherCards = () => {
         if (location.hash === "#all-cities") {
             this.ACTIVE_TAB = this.View.NAME_TAB.ALL_CITIES;
             this.View.renderCityWeather(this.Model.CITY_WEATHER);
@@ -92,7 +92,7 @@ class Controller {
         }
     }
 
-    controllerPopup(e) {
+    controllerPopup = (e) => {
         const id = this.View.getPopupId(e);
         const action = e.target.dataset.action;
 
@@ -101,23 +101,12 @@ class Controller {
             this.View.clearPopup();
         }
 
-        if (action === 'favorite-popup') {
-            this.Model.toggleFavoritePopup(id);
-        }
-
-        if (action === 'delete-popup') {
-            this.Model.deletePopup(id);
-            this.View.closePopup();
-            this.View.clearPopup();
-            this.View.renderCityWeather()
-        }
-
         if (action === 'popup') {
             this.View.closePopup();
         }
     }
 
-    init() {
+    init = () => {
         this.View.updatePage();
         this.View.renderCityWeather(this.Model.CITY_WEATHER);
 
@@ -127,9 +116,6 @@ class Controller {
         this.View.listTabs.addEventListener('click', this.controllerCityFavorite);
         this.View.popup.addEventListener('click', this.controllerPopup);
     }
-
-    init() {}
-
 }
 
 

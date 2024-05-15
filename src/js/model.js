@@ -7,7 +7,7 @@ class Model {
         this.CITY_WEATHER_FAVORITE = [];
     }
 
-    async getCityWeather(city) {
+    getCityWeather = async (city) => {
 
         const response = await fetch(this.apiUrl + city + `&appid=${this.apiKey}`);
         if (response.status == 404) {
@@ -18,11 +18,11 @@ class Model {
         }
     }
 
-    addCityWeather(newCityWeather) {
+    addCityWeather = (newCityWeather) => {
         this.CITY_WEATHER.push(newCityWeather);
     }
 
-    deleteCityWeather(id, allCities) {
+    deleteCityWeather = (id, allCities) => {
         const cityId = allCities.findIndex((city) => city.id === id);
         allCities.splice(cityId, 1);
     }
@@ -32,17 +32,6 @@ class Model {
         cityFavorite.isFavorite = !cityFavorite.isFavorite;
     }
 
-    deletePopup(id) {
-        const popupId = this.CITY_WEATHER.findIndex((item) => item.id === id);
-        this.CITY_WEATHER.splice(popupId, 1);
-    }
-
-    toggleFavoritePopup(id) {
-        const popupFavorite = this.CITY_WEATHER.find((item) => item.id === id);
-        console.log(popupFavorite)
-        popupFavorite.isFavorite = !popupFavorite.isFavorite;
-    }
-    
 }
 
 export { Model }

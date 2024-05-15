@@ -114,8 +114,8 @@ input::placeholder {
 
 .popup-cityName {
     color: var(--text-color);
-    font-size: 35px;
-    margin: 10px 0;
+    font-size: 45px;
+    margin: 30px 0 35px;
 }
 
 .popup-hum-wind {
@@ -236,28 +236,6 @@ input::placeholder {
     background-color: var(--active-button);
 }
 
-.btn-favorite-popup {
-    cursor: pointer;
-    border: none;
-    width: 30px;
-    height: 30px;
-    background-color: transparent;
-    background-image: url('../src/img/stars.png');
-    background-size: cover;
-    margin: 13px 25px 0;
-}
-
-.btn-favorite2-popup {
-    cursor: pointer;
-    border: none;
-    width: 30px;
-    height: 30px;
-    background-color: transparent;
-    background-image: url('../src/img/star2.png');
-    background-size: cover;
-    margin: 13px 25px 0;
-}
-
 .icon-img {
     pointer-events: none;
     width: 25px;
@@ -290,6 +268,7 @@ input::placeholder {
     border-radius: 25px;
     margin: 200px auto;
     position: relative;
+    padding-top: 30px;
 }
 
 .popup__close {
